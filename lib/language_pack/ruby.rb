@@ -849,6 +849,14 @@ params = CGI.parse(uri.query || "")
   end
 
   def rake
+    topic "Make sure tmp folder exists for Rails credentials"
+    if File.directory?("tmp")
+      puts "Folder already exists
+    else
+      puts "Creating tmp folder
+      FileUtils.mkdir_p("tmp")
+    end
+
     @rake ||= begin
       rake_gem_available = bundler.has_gem?("rake") || ruby_version.rake_is_vendored?
       raise_on_fail      = bundler.gem_version('railties') && bundler.gem_version('railties') > Gem::Version.new('3.x')
